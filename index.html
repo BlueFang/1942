@@ -21,7 +21,6 @@ canvas{image-rendering:pixelated;width:min(100vw,512px);height:auto;aspect-ratio
 <div id="hud"><span id="sc">SCORE:     0</span><span id="st">STAGE 1</span><span id="li">LIFE  3</span><span id="bo">BOMB 3</span></div>
 <div id="ov"><div class="t">1942</div><div class="c">© CAPCOM 1984</div><div class="i">← → ↑ ↓ : MOVE<br>SPACE/Z : BOMB<br>P : PAUSE<br>1942 : INVINCIBLE</div><button class="b blink" onclick="start();this.style.display='none'">PRESS START</button><div style="color:#666;font:10px monospace;margin-top:20px">FAN REMASTER</div></div>
 <script>
-(function(){
 const c=document.getElementById('c'),ctx=c.getContext('2d');
 ctx.imageSmoothingEnabled=false;
 const W=256,H=240,keys={};
@@ -211,7 +210,6 @@ function dr(){
  ctx.restore()
 }
 function loop(){up();dr();if(gs==='play')requestAnimationFrame(loop)}
-})();
 </script>
 </body>
 </html>
