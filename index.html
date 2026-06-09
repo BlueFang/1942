@@ -89,6 +89,7 @@ function handleCheat(code) {
   if(cheatBuffer === '1942' && gameState === 'playing') {
     godModeTimer = 3600;
     player.invincible = godModeTimer;
+    bombCount = Infinity;
     spawnParticles(player.x, player.y, '#ffcc00', 35);
   }
 }
@@ -166,7 +167,7 @@ function shoot() {
 
 function useBomb() {
   if(bombCount <= 0) return;
-  bombCount--;
+  if(bombCount !== Infinity) bombCount--;
   shakeTimer = 20;
   enemies.forEach(e => { score += e.score; spawnParticles(e.x, e.y, e.color, 12); });
   enemies = []; enemyBullets = [];
@@ -238,7 +239,11 @@ function update() {
   p.x = Math.max(20, Math.min(W-20, p.x));
   p.y = Math.max(20, Math.min(H-20, p.y));
   if(p.invincible > 0) p.invincible--;
-  if(godModeTimer > 0) { godModeTimer--; p.invincible = Math.max(p.invincible, 2); }
+  if(godModeTimer > 0) {
+    godModeTimer--;
+    p.invincible = Math.max(p.invincible, 2);
+    if(godModeTimer === 0 && bombCount === Infinity) bombCount = 3;
+  }
 
   /* Bomb */
   if(keys['Space'] || keys['KeyZ']) { useBomb(); keys['Space']=false; keys['KeyZ']=false; }
@@ -392,7 +397,7 @@ function draw() {
 
   /* Bomb indicator */
   ctx.fillStyle='rgba(255,107,157,.4)'; ctx.font='9px "Press Start 2P"'; ctx.textAlign='left';
-  ctx.fillText(`BOMB: ${bombCount}`,10,H-10);
+  ctx.fillText(`BOMB: ${bombCount === Infinity ? '∞' : bombCount}`,10,H-10);
 
   ctx.restore();
 }
